@@ -55,16 +55,12 @@ python ai_assistant.py --chat
 
 ### Environment Variables
 
-Create a `.env` file in the project directory:
+Copy `.env.example` to `.env`
 
-```env
-# Ollama Configuration (for local models)
-OLLAMA_BASE_URL=http://127.0.0.1:11434/
-OLLAMA_MODEL=llama4
-
-# Claude Configuration (for Anthropic API)
-CLAUDE_API_KEY=sk-ant-your-actual-api-key-here
 ```
+cp .env.example .env
+```
+Add your Claude API Key (if you want to use Claude)
 
 ### Ollama Setup
 
