@@ -1,4 +1,4 @@
-# Pydantic AI Folder Analyzer
+# Pydantic AI Assistant with MCP Integration
 
 A powerful command-line tool that uses Pydantic AI with Model Context Protocol (MCP) to analyze folder structures and codebases using either local Ollama models or Claude from Anthropic. Now with configurable MCP server support for enhanced capabilities.
 
