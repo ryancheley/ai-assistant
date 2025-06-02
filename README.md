@@ -63,14 +63,14 @@ python ai_assistant.py --provider ollama --mcp 1,2 --folder ./src --prompt "anal
 # Use Claude with database analysis (by name)
 python ai_assistant.py --provider claude --mcp filesystem,sqlite --folder ./project --prompt "analyze the database schema"
 
-# Same using numbers (1=filesystem, 3=sqlite)
-python ai_assistant.py --provider claude --mcp 1,3 --folder ./project --prompt "analyze the database schema"
+# Same using numbers (1=filesystem, 4=sqlite)
+python ai_assistant.py --provider claude --mcp 1,4 --folder ./project --prompt "analyze the database schema"
 
 # Web research with memory (by name)
 python ai_assistant.py --provider claude --mcp brave-search,memory --prompt "research Python async best practices" --chat
 
-# Same using numbers (5=brave-search, 6=memory)
-python ai_assistant.py --provider claude --mcp 5,6 --prompt "research Python async best practices" --chat
+# Same using numbers (5=brave-search, 7=memory)
+python ai_assistant.py --provider claude --mcp 5,7 --prompt "research Python async best practices" --chat
 
 # Quick chat mode with defaults (filesystem only)
 python ai_assistant.py --chat
@@ -80,13 +80,14 @@ python ai_assistant.py --chat
 
 | Number | Server ID | Name | Description | Requires Folders |
 |--------|-----------|------|-------------|------------------|
-| 1 | `filesystem` | Filesystem | Access and analyze files and directories | Yes |
+| 1 | `filesystem` | Filesystem | Access, analyze, read, and write files and directories | Yes |
 | 2 | `github` | GitHub | Interact with GitHub repositories and issues | No |
-| 3 | `sqlite` | SQLite | Query and analyze SQLite databases | No |
-| 4 | `postgres` | PostgreSQL | Connect to and query PostgreSQL databases | No |
+| 3 | `azure-devops` | Azure DevOps | Interact with Azure DevOps projects, work items, repositories, and pipelines | No |
+| 4 | `sqlite` | SQLite | Query and analyze SQLite databases | No |
 | 5 | `brave-search` | Brave Search | Web search capabilities using Brave Search | No |
-| 6 | `memory` | Memory | Persistent memory for conversation context | No |
-| 7 | `time` | Time | Get current time and perform time-related operations | No |
+| 6 | `postgres` | PostgreSQL | Connect to and query PostgreSQL databases | No |
+| 7 | `memory` | Memory | Persistent memory for conversation context | No |
+| 8 | `time` | Time | Get current time and perform time-related operations | No |
 
 You can select servers by either their ID (`filesystem`) or number (`1`) in both interactive mode and command line arguments.
 
@@ -131,52 +132,52 @@ BRAVE_API_KEY=your-brave-search-api-key
 
 ## Usage Examples
 
-### Code Analysis
+### Code Analysis with Azure DevOps Integration
 ```bash
-python ai_assistant.py --provider claude --mcp filesystem,github --folder ./src --prompt "Explain the main architecture patterns used in this codebase and check for any related GitHub issues"
+python ai_assistant.py --provider claude --mcp filesystem,azure-devops --folder ./src --prompt "Analyze this codebase, identify performance issues, and create work items in Azure DevOps for each issue found"
 
 # Or using numbers:
-python ai_assistant.py --provider claude --mcp 1,2 --folder ./src --prompt "Explain the main architecture patterns used in this codebase and check for any related GitHub issues"
+python ai_assistant.py --provider claude --mcp 1,3 --folder ./src --prompt "Analyze this codebase, identify performance issues, and create work items in Azure DevOps for each issue found"
 ```
 
-### Database Analysis
+### Cross-Platform DevOps Analysis
 ```bash
-python ai_assistant.py --provider claude --mcp filesystem,sqlite,postgres --folder ./migrations --prompt "Analyze the database schema and suggest optimizations"
+python ai_assistant.py --provider claude --mcp github,azure-devops --prompt "Compare the open issues in our GitHub repository with work items in Azure DevOps and identify any duplicates or missing items"
 
 # Or using numbers:
-python ai_assistant.py --provider claude --mcp 1,3,4 --folder ./migrations --prompt "Analyze the database schema and suggest optimizations"
+python ai_assistant.py --provider claude --mcp 2,3 --prompt "Compare the open issues in our GitHub repository with work items in Azure DevOps and identify any duplicates or missing items"
 ```
 
-### Research with Context
+### Project Setup and Generation
 ```bash
-python ai_assistant.py --provider claude --mcp brave-search,memory --prompt "Research current Django security best practices and remember key points for future reference" --chat
+python ai_assistant.py --provider claude --mcp filesystem,azure-devops --folder ./newproject --prompt "Create a complete Python project structure and set up corresponding work items and repository in Azure DevOps"
 
 # Or using numbers:
-python ai_assistant.py --provider claude --mcp 5,6 --prompt "Research current Django security best practices and remember key points for future reference" --chat
+python ai_assistant.py --provider claude --mcp 1,3 --folder ./newproject --prompt "Create a complete Python project structure and set up corresponding work items and repository in Azure DevOps"
 ```
 
-### Full-Stack Project Analysis
+### Database Analysis with Work Item Creation
 ```bash
-python ai_assistant.py --provider claude --mcp filesystem,github,sqlite --folder ./myproject --prompt "Provide a comprehensive analysis of this full-stack project" --chat
+python ai_assistant.py --provider claude --mcp filesystem,sqlite,azure-devops --folder ./migrations --prompt "Analyze the current database schema and create Azure DevOps work items for required migration tasks"
 
 # Or using numbers:
-python ai_assistant.py --provider claude --mcp 1,2,3 --folder ./myproject --prompt "Provide a comprehensive analysis of this full-stack project" --chat
+python ai_assistant.py --provider claude --mcp 1,4,3 --folder ./migrations --prompt "Analyze the current database schema and create Azure DevOps work items for required migration tasks"
 ```
 
-### Time-Aware Analysis
+### Research with Memory and Documentation
 ```bash
-python ai_assistant.py --provider claude --mcp filesystem,time --folder ./logs --prompt "Analyze recent log files from the past week"
+python ai_assistant.py --provider claude --mcp filesystem,brave-search,memory --folder ./docs --prompt "Research current Python development best practices and create comprehensive documentation" --chat
 
 # Or using numbers:
-python ai_assistant.py --provider claude --mcp 1,7 --folder ./logs --prompt "Analyze recent log files from the past week"
+python ai_assistant.py --provider claude --mcp 1,5,7 --folder ./docs --prompt "Research current Python development best practices and create comprehensive documentation" --chat
 ```
 
-### Multi-Database Comparison
+### PostgreSQL Database Analysis
 ```bash
-python ai_assistant.py --provider claude --mcp sqlite,postgres,memory --prompt "Compare the schemas between our SQLite development database and PostgreSQL production database"
+python ai_assistant.py --provider claude --mcp filesystem,postgres --folder ./myproject --prompt "Analyze this Django project and optimize the PostgreSQL database queries" --chat
 
 # Or using numbers:
-python ai_assistant.py --provider claude --mcp 3,4,6 --prompt "Compare the schemas between our SQLite development database and PostgreSQL production database"
+python ai_assistant.py --provider claude --mcp 1,6 --folder ./myproject --prompt "Analyze this Django project and optimize the PostgreSQL database queries" --chat
 ```
 
 ## Command Line Options
@@ -186,26 +187,34 @@ python ai_assistant.py --provider claude --mcp 3,4,6 --prompt "Compare the schem
 | `--folder` | `-f` | Folder path(s) to analyze (can be used multiple times) |
 | `--prompt` | `-p` | Initial prompt/question |
 | `--provider` | `-m` | Model provider: `ollama` or `claude` |
-| `--mcp` | | Comma-separated list of MCP servers by ID or number (e.g., `filesystem,github,time` or `1,2,7`) |
+| `--mcp` | | Comma-separated list of MCP servers by ID or number (e.g., `filesystem,github,time` or `1,2,8`) |
 | `--follow-up`, `--chat` | `-c` | Enable conversation mode |
 | `--interactive` | `-i` | Run in interactive mode |
 | `--list-mcps` | | List available MCP servers and exit |
 
 ## MCP Server Combinations
 
-### For Code Analysis
+### For Azure DevOps Projects
 ```bash
---mcp filesystem,github,memory
+--mcp filesystem,azure-devops,memory
 # Or using numbers:
---mcp 1,2,6
+--mcp 1,3,7
 ```
-Analyze code, check GitHub issues, and maintain context.
+Analyze code, manage work items, repositories, and maintain context.
+
+### For Cross-Platform Development
+```bash
+--mcp filesystem,github,azure-devops
+# Or using numbers:
+--mcp 1,2,3
+```
+Complete multi-platform development with GitHub and Azure DevOps integration.
 
 ### For Database Projects
 ```bash
 --mcp filesystem,sqlite,postgres,time
 # Or using numbers:
---mcp 1,3,4,7
+--mcp 1,4,6,8
 ```
 Analyze code, query databases, and handle time-based data.
 
@@ -213,17 +222,17 @@ Analyze code, query databases, and handle time-based data.
 ```bash
 --mcp brave-search,memory,time
 # Or using numbers:
---mcp 5,6,7
+--mcp 5,7,8
 ```
 Web research with persistent memory and time awareness.
 
-### For Full Development Workflow
+### For Complete Development Workflow
 ```bash
 --mcp filesystem,github,sqlite,memory
 # Or using numbers:
---mcp 1,2,3,6
+--mcp 1,2,4,7
 ```
-Complete development context with code, version control, database, and memory.
+Full development context with version control, database access, and memory.
 
 ## Chat Mode
 
@@ -236,12 +245,13 @@ When chat mode is enabled (`--chat` or `--follow-up`), you can:
 - Type `quit`, `exit`, or `q` to end the conversation
 - Use Ctrl+C to interrupt
 
-Example chat session with multiple MCPs:
+Example chat session with Azure DevOps integration:
 ```
-Initial prompt: "Analyze this Django project's database design"
-Follow-up: "Search for Django performance best practices online"
-Follow-up: "Check if there are any related GitHub issues in our repository"
-Follow-up: "What recent changes were made to the user model?"
+Initial prompt: "Analyze this Python project and identify areas for improvement"
+Follow-up: "Create Azure DevOps work items for each performance issue found"
+Follow-up: "Set up a new repository in Azure DevOps for the optimized code"
+Follow-up: "Search online for Python performance best practices and update our work items with recommendations"
+Follow-up: "Create comprehensive documentation in both files and Azure DevOps wiki"
 ```
 
 ## Model Context Protocol (MCP)
@@ -249,10 +259,20 @@ Follow-up: "What recent changes were made to the user model?"
 This tool uses various MCP servers to provide AI models with secure, controlled access to different data sources:
 
 ### Filesystem Server
-- Read file contents
-- List directory structures  
-- Understand project organization
-- Analyze code patterns and relationships
+- **Read Operations**: Read file contents, list directory structures, get file metadata, search for files
+- **Write Operations**: Create new files, modify existing files, create directories, move/rename files, delete files
+- **Project Generation**: Create complete project structures, boilerplate code, and configuration files
+- **Code Refactoring**: Analyze and improve existing code, saving optimized versions
+- **Documentation**: Generate README files, API docs, and technical documentation
+
+### Azure DevOps Server (@tiberriver256/mcp-server-azure-devops)
+- **Work Items**: Create, read, update work items, add comments, manage attachments
+- **Projects**: Access project details, teams, work item types, and process templates
+- **Repositories**: Browse repositories, files, commits, branches, and pull requests
+- **Pipelines**: Access build and release pipelines, view runs and results
+- **Users & Teams**: Manage user information, team memberships, and permissions
+- **Organizations**: List and manage organization details and projects
+- **Comprehensive DevOps**: Complete Azure DevOps integration for enterprise workflows
 
 ### Database Servers (SQLite/PostgreSQL)
 - Query database schemas
@@ -363,19 +383,25 @@ MCP Servers: filesystem,github,sqlite
 This Django project demonstrates a well-structured web application with the following analysis:
 
 **Code Structure** (via Filesystem MCP):
-- Clean separation of apps: users, products, orders
+- Clean separation of apps and modules
 - Proper use of Django best practices
 - Comprehensive test coverage
+- *Created optimized settings configuration*
+- *Generated missing migration files*
 
 **GitHub Integration** (via GitHub MCP):
-- 15 open issues, mostly feature requests
-- Recent activity shows active development
-- Good CI/CD pipeline setup
+- 15 open issues across different components
+- Recent commits show active development on authentication features
+- CI/CD pipeline running successfully with 92% test coverage
+- *Created 3 new issues for identified security improvements*
+- *Updated project board with technical debt items*
 
 **Database Analysis** (via SQLite MCP):
-- Well-normalized schema design
-- Proper foreign key relationships
-- Some optimization opportunities identified...
+- Django models properly configured
+- Efficient query patterns in most views
+- Some N+1 query opportunities identified
+- *Generated indexes for frequently queried fields*
+- *Created database optimization recommendations*...
 
 💬 Follow-up mode enabled. Type 'quit', 'exit', or press Ctrl+C to end.
 
@@ -385,7 +411,7 @@ Follow-up question: What are the current performance bottlenecks?
 Based on the codebase and database queries, I've identified several bottlenecks:
 1. N+1 query problems in the product listing view
 2. Missing database indexes on frequently queried fields
-3. Large image uploads without optimization...
+3. Large file uploads without optimization...
 
 Follow-up question: Search online for Django performance optimization techniques
 

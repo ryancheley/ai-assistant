@@ -65,7 +65,7 @@ class MCPServer:
 AVAILABLE_MCP_SERVERS = {
     "filesystem": MCPServer(
         name="Filesystem",
-        description="Access and analyze files and directories",
+        description="Access, analyze, read, and write files and directories",
         command="npx",
         args=["-y", "@modelcontextprotocol/server-filesystem"],
         requires_folders=True
@@ -75,6 +75,12 @@ AVAILABLE_MCP_SERVERS = {
         description="Interact with GitHub repositories and issues",
         command="npx",
         args=["-y", "@modelcontextprotocol/server-github"]
+    ),
+    "azure-devops": MCPServer(
+        name="Azure DevOps",
+        description="Interact with Azure DevOps projects, work items, repositories, and pipelines",
+        command="npx",
+        args=["-y", "@tiberriver256/mcp-server-azure-devops"]
     ),
     "sqlite": MCPServer(
         name="SQLite",
