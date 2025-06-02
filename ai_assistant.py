@@ -13,6 +13,7 @@ import typer
 from typing import Optional, List
 from enum import Enum
 from dataclasses import dataclass
+from typing import List, Optional, Dict, Any
 
 from pathlib import Path
 from pydantic_ai import Agent
@@ -43,6 +44,33 @@ if env_file.exists():
 class ModelProvider(str, Enum):
     OLLAMA = "ollama"
     CLAUDE = "claude"
+
+@dataclass
+class Message:
+    """Represents a message in the conversation history"""
+    role: str  # 'user' or 'assistant'
+    content: str
+
+@dataclass
+class MessageHistory:
+    """Manages conversation history"""
+    messages: List[Message] = None
+    
+    def __init__(self):
+        self.messages = []
+    
+    def add_message(self, role: str, content: str):
+        self.messages.append(Message(role=role, content=content))
+    
+    def get_context(self) -> str:
+        """Returns formatted conversation history"""
+        if not self.messages:
+            return ""
+        
+        context = "Previous conversation:\n"
+        for msg in self.messages:
+            context += f"{msg.role}: {msg.content}\n"
+        return context
 
 @dataclass
 class MCPServer:
@@ -238,6 +266,8 @@ def get_selected_mcp_servers(default_servers: List[str] = None) -> List[str]:
 
 async def _main(*, folders: list[Path], prompt: str, provider: ModelProvider, 
                mcp_servers: List[str], follow_up: bool = False):
+    # Initialize message history
+    message_history = MessageHistory()
     args = []
     for folder in folders:
         if folder.is_dir():
@@ -283,7 +313,16 @@ async def _main(*, folders: list[Path], prompt: str, provider: ModelProvider,
     try:
         async with agent.run_mcp_servers():
             # Initial question
-            result = await agent.run(prompt)
+            # Add context from message history if available
+            context = message_history.get_context()
+            full_prompt = f"{context}\n{prompt}" if context else prompt
+            
+            # Run the agent
+            result = await agent.run(full_prompt)
+            
+            # Add to message history
+            message_history.add_message('user', prompt)
+            message_history.add_message('assistant', result.output)
             print(f"{result.output}\n")
             print(result.usage())
             
@@ -303,7 +342,16 @@ async def _main(*, folders: list[Path], prompt: str, provider: ModelProvider,
                             break
                             
                         # Continue the conversation with the same agent
-                        result = await agent.run(follow_up_prompt)
+                        # Include conversation history in follow-up
+                        context = message_history.get_context()
+                        full_prompt = f"{context}\n{follow_up_prompt}"
+                        
+                        # Run the agent
+                        result = await agent.run(full_prompt)
+                        
+                        # Add to message history
+                        message_history.add_message('user', follow_up_prompt)
+                        message_history.add_message('assistant', result.output)
                         print(f"\n{result.output}\n")
                         print(result.usage())
                         

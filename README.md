@@ -224,7 +224,7 @@ Analyze code, query databases, and handle time-based data.
 # Or using numbers:
 --mcp 5,7,8
 ```
-Web research with persistent memory and time awareness.
+Web research with knowledge graph storage, allowing creation of entities and relations from research findings, persistent memory across sessions, and time awareness.
 
 ### For Complete Development Workflow
 ```bash
@@ -293,10 +293,14 @@ This tool uses various MCP servers to provide AI models with secure, controlled 
 - Discover relevant resources
 
 ### Memory Server
-- Maintain conversation context
-- Remember important findings
-- Build knowledge over time
-- Reference previous insights
+- Maintain conversation context through entities and relations
+- Store and retrieve structured knowledge in a graph format
+- Track observations about concepts, tools, and processes
+- Create semantic connections between related entities
+- Persist knowledge across multiple sessions
+- Support fuzzy searching across entities and observations
+- Enable complex knowledge graphs with typed relations
+- Maintain historical context of discussions and findings
 
 ### Time Server
 - Handle time-based queries
