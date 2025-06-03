@@ -19,13 +19,13 @@ A powerful command-line tool that uses Pydantic AI with Model Context Protocol (
 This project uses [PEP 723](https://peps.python.org/pep-0723/) script dependencies. You can run it directly with Python 3.12+:
 
 ```bash
-python ai_assistant.py
+uv run ai_assistant.py
 ```
 
 Or install dependencies manually:
 
 ```bash
-pip install pydantic-ai rich typer python-environ
+uv pip install pydantic-ai rich typer python-environ
 ```
 
 ## Quick Start
@@ -33,7 +33,7 @@ pip install pydantic-ai rich typer python-environ
 ### 1. See Available MCP Servers
 
 ```bash
-python ai_assistant.py --list-mcps
+uv run ai_assistant.py --list-mcps
 ```
 
 This displays all available MCP servers and their capabilities.
@@ -41,7 +41,7 @@ This displays all available MCP servers and their capabilities.
 ### 2. Interactive Mode (Recommended for first-time users)
 
 ```bash
-python ai_assistant.py --interactive
+uv run ai_assistant.py --interactive
 ```
 
 This will guide you through:
@@ -55,25 +55,25 @@ This will guide you through:
 
 ```bash
 # Analyze with Ollama using filesystem and GitHub servers (by name)
-python ai_assistant.py --provider ollama --mcp filesystem,github --folder ./src --prompt "analyze the code structure"
+uv run ai_assistant.py --provider ollama --mcp filesystem,github --folder ./src --prompt "analyze the code structure"
 
 # Same as above using numbers (1=filesystem, 2=github)
-python ai_assistant.py --provider ollama --mcp 1,2 --folder ./src --prompt "analyze the code structure"
+uv run ai_assistant.py --provider ollama --mcp 1,2 --folder ./src --prompt "analyze the code structure"
 
 # Use Claude with database analysis (by name)
-python ai_assistant.py --provider claude --mcp filesystem,sqlite --folder ./project --prompt "analyze the database schema"
+uv run ai_assistant.py --provider claude --mcp filesystem,sqlite --folder ./project --prompt "analyze the database schema"
 
 # Same using numbers (1=filesystem, 4=sqlite)
-python ai_assistant.py --provider claude --mcp 1,4 --folder ./project --prompt "analyze the database schema"
+uv run ai_assistant.py --provider claude --mcp 1,4 --folder ./project --prompt "analyze the database schema"
 
 # Web research with memory (by name)
-python ai_assistant.py --provider claude --mcp brave-search,memory --prompt "research Python async best practices" --chat
+uv run ai_assistant.py --provider claude --mcp brave-search,memory --prompt "research Python async best practices" --chat
 
 # Same using numbers (5=brave-search, 7=memory)
-python ai_assistant.py --provider claude --mcp 5,7 --prompt "research Python async best practices" --chat
+uv run ai_assistant.py --provider claude --mcp 5,7 --prompt "research Python async best practices" --chat
 
 # Quick chat mode with defaults (filesystem only)
-python ai_assistant.py --chat
+uv run ai_assistant.py --chat
 ```
 
 ## Available MCP Servers
@@ -88,6 +88,7 @@ python ai_assistant.py --chat
 | 6 | `postgres` | PostgreSQL | Connect to and query PostgreSQL databases | No |
 | 7 | `memory` | Memory | Persistent memory for conversation context | No |
 | 8 | `time` | Time | Get current time and perform time-related operations | No |
+| 9 | `terminal` | Terminal Controller | Execute and control terminal commands and processes | No |
 
 You can select servers by either their ID (`filesystem`) or number (`1`) in both interactive mode and command line arguments.
 
@@ -142,50 +143,50 @@ BRAVE_API_KEY=your-brave-search-api-key
 
 ### Code Analysis with Azure DevOps Integration
 ```bash
-python ai_assistant.py --provider claude --mcp filesystem,azure-devops --folder ./src --prompt "Analyze this codebase, identify performance issues, and create work items in Azure DevOps for each issue found"
+uv run ai_assistant.py --provider claude --mcp filesystem,azure-devops --folder ./src --prompt "Analyze this codebase, identify performance issues, and create work items in Azure DevOps for each issue found"
 
 # Or using numbers:
-python ai_assistant.py --provider claude --mcp 1,3 --folder ./src --prompt "Analyze this codebase, identify performance issues, and create work items in Azure DevOps for each issue found"
+uv run ai_assistant.py --provider claude --mcp 1,3 --folder ./src --prompt "Analyze this codebase, identify performance issues, and create work items in Azure DevOps for each issue found"
 ```
 
 ### Cross-Platform DevOps Analysis
 ```bash
-python ai_assistant.py --provider claude --mcp github,azure-devops --prompt "Compare the open issues in our GitHub repository with work items in Azure DevOps and identify any duplicates or missing items"
+uv run ai_assistant.py --provider claude --mcp github,azure-devops --prompt "Compare the open issues in our GitHub repository with work items in Azure DevOps and identify any duplicates or missing items"
 
 # Or using numbers:
-python ai_assistant.py --provider claude --mcp 2,3 --prompt "Compare the open issues in our GitHub repository with work items in Azure DevOps and identify any duplicates or missing items"
+uv run ai_assistant.py --provider claude --mcp 2,3 --prompt "Compare the open issues in our GitHub repository with work items in Azure DevOps and identify any duplicates or missing items"
 ```
 
 ### Project Setup and Generation
 ```bash
-python ai_assistant.py --provider claude --mcp filesystem,azure-devops --folder ./newproject --prompt "Create a complete Python project structure and set up corresponding work items and repository in Azure DevOps"
+uv run ai_assistant.py --provider claude --mcp filesystem,azure-devops --folder ./newproject --prompt "Create a complete Python project structure and set up corresponding work items and repository in Azure DevOps"
 
 # Or using numbers:
-python ai_assistant.py --provider claude --mcp 1,3 --folder ./newproject --prompt "Create a complete Python project structure and set up corresponding work items and repository in Azure DevOps"
+uv run ai_assistant.py --provider claude --mcp 1,3 --folder ./newproject --prompt "Create a complete Python project structure and set up corresponding work items and repository in Azure DevOps"
 ```
 
 ### Database Analysis with Work Item Creation
 ```bash
-python ai_assistant.py --provider claude --mcp filesystem,sqlite,azure-devops --folder ./migrations --prompt "Analyze the current database schema and create Azure DevOps work items for required migration tasks"
+uv run ai_assistant.py --provider claude --mcp filesystem,sqlite,azure-devops --folder ./migrations --prompt "Analyze the current database schema and create Azure DevOps work items for required migration tasks"
 
 # Or using numbers:
-python ai_assistant.py --provider claude --mcp 1,4,3 --folder ./migrations --prompt "Analyze the current database schema and create Azure DevOps work items for required migration tasks"
+uv run ai_assistant.py --provider claude --mcp 1,4,3 --folder ./migrations --prompt "Analyze the current database schema and create Azure DevOps work items for required migration tasks"
 ```
 
 ### Research with Memory and Documentation
 ```bash
-python ai_assistant.py --provider claude --mcp filesystem,brave-search,memory --folder ./docs --prompt "Research current Python development best practices and create comprehensive documentation" --chat
+uv run ai_assistant.py --provider claude --mcp filesystem,brave-search,memory --folder ./docs --prompt "Research current Python development best practices and create comprehensive documentation" --chat
 
 # Or using numbers:
-python ai_assistant.py --provider claude --mcp 1,5,7 --folder ./docs --prompt "Research current Python development best practices and create comprehensive documentation" --chat
+uv run ai_assistant.py --provider claude --mcp 1,5,7 --folder ./docs --prompt "Research current Python development best practices and create comprehensive documentation" --chat
 ```
 
 ### PostgreSQL Database Analysis
 ```bash
-python ai_assistant.py --provider claude --mcp filesystem,postgres --folder ./myproject --prompt "Analyze this Django project and optimize the PostgreSQL database queries" --chat
+uv run ai_assistant.py --provider claude --mcp filesystem,postgres --folder ./myproject --prompt "Analyze this Django project and optimize the PostgreSQL database queries" --chat
 
 # Or using numbers:
-python ai_assistant.py --provider claude --mcp 1,6 --folder ./myproject --prompt "Analyze this Django project and optimize the PostgreSQL database queries" --chat
+uv run ai_assistant.py --provider claude --mcp 1,6 --folder ./myproject --prompt "Analyze this Django project and optimize the PostgreSQL database queries" --chat
 ```
 
 ## Command Line Options
@@ -315,6 +316,13 @@ This tool uses various MCP servers to provide AI models with secure, controlled 
 - Analyze temporal data
 - Schedule-aware analysis
 - Time zone conversions
+
+### Terminal Controller Server
+- Execute terminal commands securely
+- Monitor process execution
+- Control process lifecycle
+- Handle command output and errors
+- Manage interactive terminal sessions
 
 ## Supported File Types
 
