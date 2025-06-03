@@ -160,20 +160,6 @@ def get_model(provider: ModelProvider):
     elif provider == ModelProvider.CLAUDE:
         api_key = env('CLAUDE_API_KEY')
         
-    elif provider == ModelProvider.OPENAI:
-        api_key = env('OPENAI_API_KEY')
-        
-        if not api_key:
-            console.print("[red]❌ Error: OPENAI_API_KEY is missing in your .env file[/red]")
-            console.print("[yellow]Please add a valid OpenAI API key to your .env file:[/yellow]")
-            console.print("OPENAI_API_KEY=sk-your-actual-api-key-here")
-            raise typer.Exit(1)
-            
-        return OpenAIModel(
-            model_name='gpt-4-turbo-preview',
-            provider=OpenAIProvider(api_key=api_key),
-        )
-        
         if not api_key or api_key.startswith('sk...'):
             console.print("[red]❌ Error: CLAUDE_API_KEY is missing or invalid in your .env file[/red]")
             console.print("[yellow]Please add a valid Claude API key to your .env file:[/yellow]")
@@ -191,6 +177,20 @@ def get_model(provider: ModelProvider):
             
         return AnthropicModel(
             model_name='claude-3-5-sonnet-20241022',
+        )
+        
+    elif provider == ModelProvider.OPENAI:
+        api_key = env('OPENAI_API_KEY')
+        
+        if not api_key:
+            console.print("[red]❌ Error: OPENAI_API_KEY is missing in your .env file[/red]")
+            console.print("[yellow]Please add a valid OpenAI API key to your .env file:[/yellow]")
+            console.print("OPENAI_API_KEY=sk-your-actual-api-key-here")
+            raise typer.Exit(1)
+            
+        return OpenAIModel(
+            model_name='gpt-4-turbo-preview',
+            provider=OpenAIProvider(api_key=api_key),
         )
     
     else:
