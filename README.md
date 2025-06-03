@@ -4,7 +4,7 @@ A powerful command-line tool that uses Pydantic AI with Model Context Protocol (
 
 ## Features
 
-- 🤖 **Multiple AI Providers**: Support for both Ollama (local) and Claude (Anthropic) models
+- 🤖 **Multiple AI Providers**: Support for Ollama (local), Claude (Anthropic), and OpenAI (GPT-4) models
 - 🔌 **Configurable MCP Servers**: Choose from filesystem, GitHub, SQLite, PostgreSQL, web search, and more
 - 📁 **Filesystem Access**: Direct folder analysis through MCP filesystem server
 - 🗄️ **Database Integration**: Query SQLite and PostgreSQL databases
@@ -111,6 +111,9 @@ OLLAMA_MODEL=llama4
 # Claude Configuration
 CLAUDE_API_KEY=sk-ant-your-actual-api-key-here
 
+# OpenAI Configuration
+OPENAI_API_KEY=sk-your-actual-api-key-here
+
 # Database Configuration (if using database MCPs)
 DATABASE_URL=postgresql://user:pass@localhost:5432/dbname
 SQLITE_DB_PATH=/path/to/your/database.db
@@ -129,6 +132,11 @@ BRAVE_API_KEY=your-brave-search-api-key
 
 1. Get an API key from [Anthropic Console](https://console.anthropic.com/)
 2. Add it to your `.env` file as `CLAUDE_API_KEY`
+
+### OpenAI Setup
+
+1. Get an API key from [OpenAI Platform](https://platform.openai.com/)
+2. Add it to your `.env` file as `OPENAI_API_KEY`
 
 ## Usage Examples
 
@@ -186,7 +194,7 @@ python ai_assistant.py --provider claude --mcp 1,6 --folder ./myproject --prompt
 |--------|--------|-------------|
 | `--folder` | `-f` | Folder path(s) to analyze (can be used multiple times) |
 | `--prompt` | `-p` | Initial prompt/question |
-| `--provider` | `-m` | Model provider: `ollama` or `claude` |
+| `--provider` | `-m` | Model provider: `ollama`, `claude`, or `openai` |
 | `--mcp` | | Comma-separated list of MCP servers by ID or number (e.g., `filesystem,github,time` or `1,2,8`) |
 | `--follow-up`, `--chat` | `-c` | Enable conversation mode |
 | `--interactive` | `-i` | Run in interactive mode |

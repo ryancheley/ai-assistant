@@ -34,6 +34,7 @@ env = environ.Env(
     OLLAMA_BASE_URL=(str, 'http://127.0.0.1:11434/'),
     OLLAMA_MODEL=(str, 'llama4'),
     CLAUDE_API_KEY=(str, ''),
+    OPENAI_API_KEY=(str, ''),
 )
 
 # Read .env file if it exists
@@ -44,6 +45,7 @@ if env_file.exists():
 class ModelProvider(str, Enum):
     OLLAMA = "ollama"
     CLAUDE = "claude"
+    OPENAI = "openai"
 
 @dataclass
 class Message:
@@ -157,6 +159,20 @@ def get_model(provider: ModelProvider):
     
     elif provider == ModelProvider.CLAUDE:
         api_key = env('CLAUDE_API_KEY')
+        
+    elif provider == ModelProvider.OPENAI:
+        api_key = env('OPENAI_API_KEY')
+        
+        if not api_key:
+            console.print("[red]❌ Error: OPENAI_API_KEY is missing in your .env file[/red]")
+            console.print("[yellow]Please add a valid OpenAI API key to your .env file:[/yellow]")
+            console.print("OPENAI_API_KEY=sk-your-actual-api-key-here")
+            raise typer.Exit(1)
+            
+        return OpenAIModel(
+            model_name='gpt-4-turbo-preview',
+            provider=OpenAIProvider(api_key=api_key),
+        )
         
         if not api_key or api_key.startswith('sk...'):
             console.print("[red]❌ Error: CLAUDE_API_KEY is missing or invalid in your .env file[/red]")
@@ -396,13 +412,16 @@ def get_model_provider() -> ModelProvider:
     console.print("\n[bold blue]Select model provider:[/bold blue]")
     console.print("1. Ollama (local)")
     console.print("2. Claude (Anthropic)")
+    console.print("3. OpenAI (GPT-4)")
     
-    choice = Prompt.ask("Choose provider", choices=["1", "2"], default="1")
+    choice = Prompt.ask("Choose provider", choices=["1", "2", "3"], default="1")
     
     if choice == "1":
         return ModelProvider.OLLAMA
-    else:
+    elif choice == "2":
         return ModelProvider.CLAUDE
+    else:
+        return ModelProvider.OPENAI
 
 def main(
     folders: Optional[list[Path]] = typer.Option(None, "--folder", "-f", help="Folder paths to analyze"),
