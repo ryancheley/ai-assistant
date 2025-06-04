@@ -142,12 +142,6 @@ AVAILABLE_MCP_SERVERS = {
         command="npx",
         args=["-y", "@modelcontextprotocol/server-time"]
     ),
-    "terminal": MCPServer(
-        name="Terminal Controller",
-        description="Execute and control terminal commands and processes",
-        command="npx",
-        args=["-y", "@GongRzhe/terminal-controller-mcp"]
-    ),
 }
 
 def get_model(provider: ModelProvider):

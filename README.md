@@ -88,7 +88,6 @@ uv run ai_assistant.py --chat
 | 6 | `postgres` | PostgreSQL | Connect to and query PostgreSQL databases | No |
 | 7 | `memory` | Memory | Persistent memory for conversation context | No |
 | 8 | `time` | Time | Get current time and perform time-related operations | No |
-| 9 | `terminal` | Terminal Controller | Execute and control terminal commands and processes | No |
 
 You can select servers by either their ID (`filesystem`) or number (`1`) in both interactive mode and command line arguments.
 
@@ -316,13 +315,6 @@ This tool uses various MCP servers to provide AI models with secure, controlled 
 - Analyze temporal data
 - Schedule-aware analysis
 - Time zone conversions
-
-### Terminal Controller Server
-- Execute terminal commands securely
-- Monitor process execution
-- Control process lifecycle
-- Handle command output and errors
-- Manage interactive terminal sessions
 
 ## Supported File Types
 
